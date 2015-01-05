@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [[ -z "$PORT" ]]; then
+  PORT=9393
+fi
+
+if ! vagrant status | grep "running" > /dev/null; then
+  vagrant up
+fi
+
+vagrant ssh -c "cd /vagrant; node webapp/watch.js & GEM_PATH=/srv/apps/cuba-skeleton/gems shotgun -p $PORT"

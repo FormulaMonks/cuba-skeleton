@@ -1,0 +1,15 @@
+---
+- name: add ruby apt repository
+  apt_repository:
+    repo: "ppa:brightbox/ruby-ng"
+  sudo: yes
+
+- name: install ruby
+  apt:
+    name: "{{ item }}"
+  sudo: yes
+  with_items:
+    - ruby2.1
+    - ruby2.1-dev
+
+- include: gems.yml

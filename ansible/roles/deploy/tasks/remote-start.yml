@@ -1,0 +1,12 @@
+---
+- name: remote-start | symlink to app directoy exists
+  file:
+    state: link
+    src: "{{ release_dir }}"
+    dest: "{{ app_dir }}"
+
+- name: remote-start | application started
+  shell: "unicorn --daemonize --env deployment --config-file unicorn.rb"
+  args:
+    chdir: "{{ app_dir }}"
+  environment: app_env

@@ -1,0 +1,26 @@
+---
+- name: add node apt repository
+  apt_repository:
+    repo: "ppa:chris-lea/node.js-legacy"
+  sudo: yes
+
+- name: install node and npm
+  apt:
+    name: "{{ item }}"
+    state: present
+  sudo: yes
+  with_items:
+    - nodejs
+    - npm
+
+- name: hack node bin
+  file:
+    src: "/usr/bin/nodejs"
+    dest: "/usr/bin/node"
+    state: link
+  sudo: yes
+
+- name: ensure node_modules directory present
+  file:
+    path: "{{ node_dir }}"
+    state: directory

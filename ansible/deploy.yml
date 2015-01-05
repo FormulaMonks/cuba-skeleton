@@ -1,0 +1,8 @@
+---
+- hosts: all
+  remote_user: "{{ user }}"
+  sudo_user: "{{ user }}"
+  vars:
+    repo_version: "master"
+  roles:
+    - role: deploy

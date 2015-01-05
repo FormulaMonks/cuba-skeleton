@@ -1,0 +1,30 @@
+---
+- name: hostname | hostname updated (pt. 1) - hostname cmd
+  hostname:
+    name: "{{ inventory_hostname_short }}"
+  sudo: yes
+
+- name: hostname | hostname updated (pt. 2) - (/etc/hostname)
+  copy:
+    content: "{{ inventory_hostname_short }}{{ '\n' }}"
+    dest: "/etc/hostname"
+    owner: root
+    group: root
+    mode: 0644
+  sudo: yes
+
+- name: hostname | IPv4 hostname updated (pt. 3) - (/etc/hosts)
+  lineinfile:
+    dest: "/etc/hosts"
+    regexp: "^127.0.0.1"
+    line: "127.0.0.1{{ '\t' }}{{ inventory_hostname }}{% if inventory_hostname != inventory_hostname_short %}{{ '\t' }}{{ inventory_hostname_short }}{% endif %}{{ '\t' }}localhost"
+    state: present
+  sudo: yes
+
+- name: hostname | IPv6 hostname updated (pt. 3) - (/etc/hosts)
+  lineinfile:
+    dest: "/etc/hosts"
+    regexp: "^::1"
+    line: "::1{{ '\t\t' }}{{ inventory_hostname }}{% if inventory_hostname != inventory_hostname_short %}{{ '\t' }}{{ inventory_hostname_short }}{% endif %}{{ '\t' }}localhost ip6-localhost ip6-loopback"
+    state: present
+  sudo: yes

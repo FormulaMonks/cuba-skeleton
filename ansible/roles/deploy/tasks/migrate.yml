@@ -1,0 +1,7 @@
+---
+- name: migrate | database migrated to last version
+  command: "rake db:migrate"
+  args:
+    chdir: "{{ release_dir }}"
+  environment:
+    GEM_HOME: "{{ gems_dir }}"

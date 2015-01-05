@@ -1,0 +1,12 @@
+---
+user: "vagrant"
+base_dir: "/srv/apps/cuba-skeleton"
+app_debug_mode: yes
+app_environment: "development"
+ssl_enabled: no
+app_url: "http://localhost:9393"
+app_domain: "localhost"
+session_secret: "2fa1d418acbc54572495ae87c9715f1a38ff9968d14d15f0551d16083f8d396f"
+database_name: "cubaskeleton"
+database_user: "dbuser"
+database_password: "dbpass"

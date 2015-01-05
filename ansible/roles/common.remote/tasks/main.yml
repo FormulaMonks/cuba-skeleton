@@ -1,0 +1,108 @@
+---
+- name: create group
+  group:
+    name: "{{ user }}"
+    state: present
+  sudo: yes
+
+- name: sudoers.d is enabled
+  lineinfile:
+    dest: "/etc/sudoers"
+    state: present
+    backup: yes
+    regexp: "^#includedir /etc/sudoers.d"
+    line: "#includedir /etc/sudoers.d"
+  sudo: yes
+
+- name: password-less sudo for group set up
+  template:
+    src: "sudoers.j2"
+    dest: "/etc/sudoers.d/{{ user }}"
+    owner: root
+    group: root
+    mode: 0440
+  sudo: yes
+
+- name: user created
+  user:
+    name: "{{ user }}"
+    home: "/home/{{ user }}"
+    createhome: yes
+    state: present
+    shell: "/bin/bash"
+    group: "{{ user }}"
+  sudo: yes
+
+- name: owner of /tmp
+  file:
+    path: /tmp
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+  sudo: yes
+
+- name: owner of /srv/apps
+  file:
+    path: "/srv/apps"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+  sudo: yes
+
+- name: ssh dir exists
+  file:
+    dest: "/home/{{ user }}/.ssh"
+    state: directory
+  sudo: yes
+  sudo_user: "{{ user }}"
+
+- name: private key stored
+  template:
+    src: "private_key.j2"
+    dest: "/home/{{ user }}/.ssh/{{ app_name }}_rsa"
+    mode: 0600
+  sudo: yes
+  sudo_user: "{{ user }}"
+
+- name: public key stored
+  template:
+    src: "public_key.j2"
+    dest: "/home/{{ user }}/.ssh/{{ app_name }}_rsa.pub"
+    mode: 0600
+  sudo: yes
+  sudo_user: "{{ user }}"
+
+- name: authorized_keys from root_user copied
+  command:
+    cp "/home/{{ root_user }}/.ssh/authorized_keys" "/home/{{ user }}/.ssh/authorized_keys"
+  args:
+    creates: "/home/{{ user }}/.ssh/authorized_keys"
+  sudo: yes
+  sudo_user: "{{ user }}"
+
+- name: ssh config to github is set
+  lineinfile:
+    dest: "/home/{{ user }}/.ssh/config"
+    line: "Host {{ app_name }}.github.com\n HostName github.com\n User git\n IdentityFile /home/{{ user }}/.ssh/{{ app_name }}_rsa"
+    state: present
+    create: yes
+    group: "{{ user }}"
+    owner: "{{ user }}"
+  sudo: yes
+
+- name: authorized_keys file permission
+  file:
+    path: "/home/{{ user }}/.ssh/authorized_keys"
+    group: "{{ user }}"
+    owner: "{{ user }}"
+  sudo: yes
+
+- name: logs directory exists
+  file:
+    path: "{{ logs_dir }}"
+    state: directory
+    group: "{{ user }}"
+    owner: "{{ user }}"
+  sudo: yes
+
+- include: hostname.yml

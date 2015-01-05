@@ -1,0 +1,21 @@
+---
+- name: gems | gem home directory exists
+  file:
+    path: "{{ gems_dir }}"
+    state: directory
+
+- name: gems | project gems installed
+  gem:
+    name: "{{ item.name }}"
+    version: "{{ item.version }}"
+    user_install: no
+  with_items:
+    - { name: "cuba", version: "3.1.1" }
+    - { name: "rack-contrib", version: "1.1.0" }
+    - { name: "rack-protection", version: "1.5.2" }
+    - { name: "armadillo", version: "0.0.4" }
+    - { name: "pg", version: "0.17.1" }
+    - { name: "sequel_pg", version: "1.6.9" }
+    - { name: "sequel", version: "4.9.0" }
+  environment:
+    GEM_HOME: "{{ gems_dir }}"

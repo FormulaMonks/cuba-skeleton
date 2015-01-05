@@ -1,0 +1,32 @@
+---
+- name: remote-fetch | base folder exists
+  file:
+    state: directory
+    recurse: yes
+    path: "{{ base_dir }}"
+  sudo: yes
+
+- name: remote-fetch | releases folder exists
+  file:
+    state: directory
+    recurse: yes
+    path: "{{ base_dir }}/releases"
+
+- name: remote-fetch | logs folder exists
+  file:
+    state: directory
+    recurse: yes
+    path: "{{ base_dir }}/logs"
+
+- name: remote-fetch | unicorn tmp folder exists
+  file:
+    state: directory
+    recurse: yes
+    path: "/tmp/unicorn"
+
+- name: "remote-fetch | repo present with version {{ repo_version }}"
+  git:
+    repo: "{{ repo }}"
+    dest: "{{ release_dir }}"
+    version: "{{ repo_version }}"
+    accept_hostkey: yes

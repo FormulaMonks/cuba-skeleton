@@ -1,0 +1,6 @@
+---
+  app_name: cuba-skeleton
+  app_dir: "{{ base_dir }}/current"
+  node_dir: "{{ base_dir }}/node_modules"
+  logs_dir: "{{ base_dir }}/logs"
+  gems_dir: "{{ base_dir }}/gems"

@@ -1,0 +1,7 @@
+/ansible/group_vars/development.yml
+.vagrant
+/config/settings.json
+/config/unicorn.rb
+/node_modules
+/public/javascripts/index.js
+/public/stylesheets/application.css

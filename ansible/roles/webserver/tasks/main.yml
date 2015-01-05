@@ -1,0 +1,52 @@
+---
+- name: nginx-extras installed
+  apt:
+    name: nginx-extras
+    state: installed
+  sudo: yes
+
+- name: write nginx.conf
+  template:
+    src: "nginx.conf.j2"
+    dest: "/etc/nginx/nginx.conf"
+  sudo: yes
+  notify:
+    - restart nginx
+
+- name: remove nginx default site
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent
+  sudo: yes
+  notify:
+    - restart nginx
+
+# NOTE: upstart is a bit shitty here, so if nginx is not running
+# this will fail because a proper status code is not returned.
+# Thats why we use a pattern to recognize nginx in `ps` output.
+# More here: http://ansible.cc/docs/modules.html#service
+#            https://github.com/ansible/ansible/issues/564
+- name: nginx service running
+  service:
+    name: nginx
+    enabled: yes
+    state: started
+    pattern: "master process /usr/sbin/nginx"
+  sudo: yes
+
+- name: setup nginx for app
+  template:
+    src: "nginx-site.conf.j2"
+    dest: "/etc/nginx/sites-available/{{ app_name }}.conf"
+  sudo: yes
+  notify:
+    - restart nginx
+
+- name: enables app for nginx
+  file:
+    src: "/etc/nginx/sites-available/{{ app_name }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ app_name }}.conf"
+    state: link
+  sudo: yes
+  notify:
+    - restart nginx

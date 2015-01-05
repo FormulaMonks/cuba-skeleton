@@ -1,0 +1,47 @@
+---
+- name: add postgresql apt repository
+  apt_repository:
+    repo: "ppa:chris-lea/postgresql-9.3"
+  sudo: yes
+
+- name: postgres installed
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - postgresql-9.3
+    - libpq-dev
+    - python-psycopg2
+  sudo: yes
+
+- name: add connection config to local users
+  lineinfile:
+    dest: "/etc/postgresql/9.3/main/pg_hba.conf"
+    line: "local all all trust"
+    state: present
+    regexp: "^local all all trust$"
+    insertbefore: "^# DO NOT DISABLE!"
+  sudo: yes
+  register: postgresql_config
+
+- name: restart postgresql
+  service:
+    name: postgresql
+    state: restarted
+  sudo: yes
+  when: postgresql_config.changed
+
+- name: create postgresql user
+  postgresql_user:
+    name: "{{ database_user }}"
+    role_attr_flags: "CREATEDB,CREATEROLE"
+    password: "{{ database_password }}"
+    state: present
+  sudo: yes
+  sudo_user: postgres
+
+- name: create postgresql database
+  postgresql_db:
+    name: "{{ database_name }}"
+    login_user: "{{ database_user }}"
+    login_password: "{{ database_password }}"
+  sudo: yes

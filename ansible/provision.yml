@@ -1,0 +1,16 @@
+---
+- hosts: staging:production
+  remote_user: "{{ root_user }}"
+  roles:
+    - role: common.remote
+
+- hosts: all
+  remote_user: "{{ user }}"
+  roles:
+    - role: common
+    - role: ruby
+    - role: webserver
+    - role: dbserver
+    - role: webassets
+
+- include: deploy.yml

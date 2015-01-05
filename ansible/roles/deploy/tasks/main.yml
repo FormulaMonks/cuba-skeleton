@@ -1,0 +1,26 @@
+---
+- set_fact:
+    release_version: "{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}"
+
+- set_fact:
+    release_dir:
+      "{% if app_debug_mode %}{{ base_dir }}/current{% else %}{{ base_dir }}/releases/{{ release_version }}{% endif %}"
+
+- include: remote-fetch.yml
+  when: not app_debug_mode
+
+- name: project settings built
+  template:
+    src: "settings.json.j2"
+    dest: "{{ release_dir }}/config/settings.json"
+
+- include: gems.yml
+- include: assets.yml
+
+- include: remote-stop.yml
+  when: not app_debug_mode
+
+- include: migrate.yml
+
+- include: remote-start.yml
+  when: not app_debug_mode

@@ -1,0 +1,25 @@
+---
+- name: apt cache is up to date
+  apt:
+    update_cache: yes
+  sudo: yes
+
+- name: project apt dependencies installed
+  apt:
+    name: "{{ item }}"
+  sudo: yes
+  with_items:
+    - build-essential
+    - git
+    - curl
+    - libpcre3-dev
+    - python-apt
+    - python-pycurl
+
+- name: user owns base directory
+  file:
+    path: "{{ base_dir }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+  sudo: yes
