@@ -1,8 +1,8 @@
 ---
-- hosts: staging:production
+- hosts: all
   remote_user: "{{ root_user }}"
   roles:
-    - role: common.remote
+    - { role: common.remote, tags: ["remote"] }
 
 - hosts: all
   remote_user: "{{ user }}"

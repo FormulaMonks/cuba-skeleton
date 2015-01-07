@@ -3,11 +3,16 @@
     release_version: "{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}"
 
 - set_fact:
-    release_dir:
-      "{% if app_debug_mode %}{{ base_dir }}/current{% else %}{{ base_dir }}/releases/{{ release_version }}{% endif %}"
+    release_dir: "{{ base_dir }}/current"
+
+- set_fact:
+    release_dir: "{{ base_dir }}/releases/{{ release_version }}"
+  tags:
+    - remote
 
 - include: remote-fetch.yml
-  when: not app_debug_mode
+  tags:
+    - remote
 
 - name: project settings built
   template:
@@ -18,14 +23,18 @@
   template:
     src: "unicorn.rb.j2"
     dest: "{{ release_dir }}/config/unicorn.rb"
+  tags:
+    - remote
 
 - include: gems.yml
 - include: assets.yml
 
 - include: remote-stop.yml
-  when: not app_debug_mode
+  tags:
+    - remote
 
 - include: migrate.yml
 
 - include: remote-start.yml
-  when: not app_debug_mode
+  tags:
+    - remote

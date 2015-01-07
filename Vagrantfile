@@ -17,6 +17,8 @@ Vagrant.configure("2") do |config|
 
     ansible.groups = { "development" => ["default"] }
 
+    ansible.skip_tags = ["remote"]
+
     ansible.extra_vars = {
       :ansible_ssh_user => "vagrant"
     }

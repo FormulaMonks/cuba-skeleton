@@ -86,23 +86,18 @@ root user first.
 Also, make sure you add the public key from the config to the GitHub deploy
 keys.
 
-To run the provision you now need to run the ansible provision playbook. Before
-running it, check that the hosts list affected are the ones desired:
-```
-$ ansible-playbook ansible/provision.yml --inventory=ansible/production --list-hosts --ask-vault-pass
-```
+You should now run the provision playbook on production. Since we're using an
+encrypted file as the group settings, you're going to be asked the password to
+decrypt it.
 
-You should now run the provision playbook. Since we're using an encrypted file
-as the group settings, add the `--ask-vault-pass` option:
 ```
-$ ansible-playbook ansible/provision.yml --inventory=ansible/production --ask-vault-pass
+$ make provision
 ```
 
 ### Deploying
 
-To deploy to a given inventory list, you should run ansible specifying the
-inventory and playbook:
+To deploy to production:
 
 ```
-$ ansible-playbook ansible/deploy.yml --inventory=ansible/production --ask-vault-pass
+$ make deploy
 ```
