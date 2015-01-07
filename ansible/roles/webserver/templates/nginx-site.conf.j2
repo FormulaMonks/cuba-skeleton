@@ -13,7 +13,7 @@ upstream {{ app_name }} {
   {% if app_debug_mode %}
   server 0.0.0.0:9393;
   {% else %}
-  server unix:/tmp/unicorn.{{ app_name }}.sock fail_timeout=0;
+  server unix:{{ unicorn_socket_file }} fail_timeout=0;
   {% endif %}
 }
 

@@ -14,6 +14,11 @@
     src: "settings.json.j2"
     dest: "{{ release_dir }}/config/settings.json"
 
+- name: unicorn config file built
+  template:
+    src: "unicorn.rb.j2"
+    dest: "{{ release_dir }}/config/unicorn.rb"
+
 - include: gems.yml
 - include: assets.yml
 

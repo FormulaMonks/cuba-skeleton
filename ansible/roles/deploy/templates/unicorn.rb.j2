@@ -1,0 +1,36 @@
+ROOT = File.dirname(__FILE__)
+
+def root(file)
+  File.expand_path(File.join(file), ROOT)
+end
+
+preload_app(true)
+
+working_directory root(".")
+
+listen "{{ unicorn_socket_file }}"
+
+worker_processes {{ workers_number }}
+
+timeout 10
+
+pid "{{ unicorn_pid_file }}"
+
+stderr_path "{{ logs_dir }}/unicorn.stderr.log"
+stdout_path "{{ logs_dir }}/unicorn.stdout.log"
+
+before_fork do |server, worker|
+  old_pid = "#{server.config[:pid]}.oldbin"
+
+  if old_pid != server.pid
+    begin
+      sig = (worker.nr + 1) >= server.worker_processes ? :QUIT : :TTOU
+      Process.kill(sig, File.read(old_pid).to_i)
+    rescue Errno::ENOENT, Errno::ESRCH
+    end
+  end
+
+  CubaSkeleton::DB.disconnect
+
+  sleep 1
+end

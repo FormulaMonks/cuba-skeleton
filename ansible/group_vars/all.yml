@@ -4,3 +4,5 @@
   node_dir: "{{ base_dir }}/node_modules"
   logs_dir: "{{ base_dir }}/logs"
   gems_dir: "{{ base_dir }}/gems"
+  unicorn_socket_file: "/tmp/unicorn.{{ app_name }}.sock"
+  unicorn_pid_file: "/tmp/unicorn.{{ app_name }}.pid"

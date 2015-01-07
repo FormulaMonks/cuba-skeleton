@@ -6,7 +6,7 @@
     dest: "{{ app_dir }}"
 
 - name: remote-start | application started
-  shell: "unicorn --daemonize --env deployment --config-file unicorn.rb"
+  shell: "unicorn --daemonize --env deployment --config-file config/unicorn.rb"
   args:
     chdir: "{{ app_dir }}"
   environment: app_env
