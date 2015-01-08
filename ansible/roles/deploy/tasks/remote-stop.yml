@@ -1,9 +1,0 @@
----
-- name: check for PID file
-  command: "/usr/bin/test -e {{ unicorn_pid_file }}"
-  ignore_errors: true
-  register: pid_exists
-
-- name: kill application if running
-  shell: "kill -QUIT $(cat {{ unicorn_pid_file }})"
-  when: pid_exists.rc == 0

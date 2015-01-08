@@ -28,11 +28,6 @@
 
 - include: gems.yml
 - include: assets.yml
-
-- include: remote-stop.yml
-  tags:
-    - remote
-
 - include: migrate.yml
 
 - include: remote-start.yml

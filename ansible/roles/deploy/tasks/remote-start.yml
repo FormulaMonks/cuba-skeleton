@@ -5,8 +5,18 @@
     src: "{{ release_dir }}"
     dest: "{{ app_dir }}"
 
-- name: remote-start | application started
+- name: remote-start | check for PID file
+  command: "/usr/bin/test -e {{ unicorn_pid_file }}"
+  ignore_errors: true
+  register: pid_exists
+
+- name: remote-start | application restarted if running
+  shell: "kill -USR2 $(cat {{ unicorn_pid_file }})"
+  when: pid_exists.rc == 0
+
+- name: remote-start | application started if not running
   shell: "unicorn --daemonize --env deployment --config-file config/unicorn.rb"
   args:
     chdir: "{{ app_dir }}"
   environment: app_env
+  when: pid_exists.rc != 0
