@@ -1,23 +1,17 @@
-ROOT = File.dirname(__FILE__)
-
-def root(file)
-  File.expand_path(File.join(file), ROOT)
-end
-
 preload_app(true)
 
-working_directory root(".")
+working_directory("{{ app_dir }}")
 
-listen "{{ unicorn_socket_file }}"
+listen("{{ unicorn_socket_file }}")
 
-worker_processes {{ workers_number }}
+worker_processes({{ workers_number }})
 
-timeout 10
+timeout(10)
 
-pid "{{ unicorn_pid_file }}"
+pid("{{ unicorn_pid_file }}")
 
-stderr_path "{{ logs_dir }}/unicorn.stderr.log"
-stdout_path "{{ logs_dir }}/unicorn.stdout.log"
+stderr_path("{{ logs_dir }}/unicorn.stderr.log")
+stdout_path("{{ logs_dir }}/unicorn.stdout.log")
 
 before_fork do |server, worker|
   old_pid = "#{server.config[:pid]}.oldbin"

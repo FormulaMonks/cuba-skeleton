@@ -18,5 +18,6 @@
   shell: "unicorn --daemonize --env deployment --config-file config/unicorn.rb"
   args:
     chdir: "{{ app_dir }}"
-  environment: app_env
+  environment:
+    GEM_HOME: "{{ gems_dir }}"
   when: pid_exists.rc != 0
