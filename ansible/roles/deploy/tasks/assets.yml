@@ -15,7 +15,7 @@
   with_items:
     - { name: "less", version: "1.7.5" }
     - { name: "chokidar", version: "0.12.1" }
-    - { name: "webpack", version: "1.4.13" }
+    - { name: "webpack", version: "1.5.3" }
     - { name: "style-loader", version: "0.8.2" }
     - { name: "css-loader", version: "0.9.0" }
     - { name: "less-loader", version: "0.7.8" }
