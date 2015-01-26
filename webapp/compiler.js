@@ -69,7 +69,6 @@ webpackConfig = function (fileInput, fileOutput, development) {
 module.exports = {
   run: function (finished) {
     [
-      ["templates/index.html", "index.html"],
       ["less/application.less", "stylesheets/application.css"],
       ["javascripts/index.js", "javascripts/index.js"]
     ].forEach(function (filenames, i) {
