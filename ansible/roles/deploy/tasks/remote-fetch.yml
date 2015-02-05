@@ -1,24 +1,24 @@
 ---
-- name: remote-fetch | base folder exists
+- name: remote-fetch | base directory exists
   file:
     state: directory
     recurse: yes
     path: "{{ base_dir }}"
   sudo: yes
 
-- name: remote-fetch | releases folder exists
+- name: remote-fetch | releases directory exists
   file:
     state: directory
     recurse: yes
     path: "{{ base_dir }}/releases"
 
-- name: remote-fetch | logs folder exists
+- name: remote-fetch | logs directory exists
   file:
     state: directory
     recurse: yes
     path: "{{ base_dir }}/logs"
 
-- name: remote-fetch | unicorn tmp folder exists
+- name: remote-fetch | unicorn tmp directory exists
   file:
     state: directory
     recurse: yes

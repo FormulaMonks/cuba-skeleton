@@ -78,7 +78,6 @@
   args:
     creates: "/home/{{ user }}/.ssh/authorized_keys"
   sudo: yes
-  sudo_user: "{{ user }}"
 
 - name: ssh config to github is set
   lineinfile:
