@@ -4,10 +4,11 @@ user: "deploy"
 root_user: "ubuntu"
 base_dir: "/srv/apps/cuba-skeleton"
 app_debug_mode: no
+app_environment: "production"
 ssl_enabled: no
 app_domain: "cuba-skeleton.site.com"
 app_url: "http://cuba-skeleton.site.com"
-repo: "git@github.com:citrusbyte/cuba-skeleton.git"
+repo: "git@{{ app_name }}.github.com:citrusbyte/cuba-skeleton.git"
 session_secret: "12345678"
 database_name: "cubaskeleton"
 database_user: "dbuser"
