@@ -4,8 +4,8 @@
 }
 
 .m-boxShadow(@shadow) {
-  -webkit-box-shadow: @shadow;
-          box-shadow: @shadow;
+  -webkit-box-shadow+: @shadow;
+          box-shadow+: @shadow;
 }
 
 .m-backgroundSize(@size) {
@@ -22,10 +22,10 @@
 }
 
 .m-transition(@prop: all, @time: 1s, @ease: ease-in-out, @delay: 0s) {
-  -webkit-transition: @prop @time @ease @delay;
-     -moz-transition: @prop @time @ease @delay;
-      -ms-transition: @prop @time @ease @delay;
-          transition: @prop @time @ease @delay;
+  -webkit-transition+: @prop @time @ease @delay;
+     -moz-transition+: @prop @time @ease @delay;
+      -ms-transition+: @prop @time @ease @delay;
+          transition+: @prop @time @ease @delay;
 }
 
 .m-transform(@prop) {
@@ -35,27 +35,12 @@
           transform: @prop;
 }
 
-.m-animation(@name, @duration, @timingFunction: ease-in-out, @direction: normal) {
-  -webkit-animation-name: @name;
-     -moz-animation-name: @name;
-      -ms-animation-name: @name;
-       -o-animation-name: @name;
-          animation-name: @name;
-  -webkit-animation-duration: @duration;
-     -moz-animation-duration: @duration;
-      -ms-animation-duration: @duration;
-       -o-animation-duration: @duration;
-          animation-duration: @duration;
-  -webkit-animation-timing-function: @timingFunction;
-     -moz-animation-timing-function: @timingFunction;
-      -ms-animation-timing-function: @timingFunction;
-       -o-animation-timing-function: @timingFunction;
-          animation-timing-function: @timingFunction;
-  -webkit-animation-direction: @direction;
-     -moz-animation-direction: @direction;
-      -ms-animation-direction: @direction;
-       -o-animation-direction: @direction;
-          animation-direction: @direction;
+.m-animation(@prop) {
+  -webkit-animation: @prop;
+     -moz-animation: @prop;
+      -ms-animation: @prop;
+       -o-animation: @prop;
+          animation: @prop;
 }
 
 .m-gradient(@startColor, @endColor) {
@@ -99,6 +84,21 @@
 
 .m-minMedia(@minWidth, @rules) {
   @media screen and (min-width: @maxWidth) {
+    @rules();
+  }
+}
+
+.m-placeholder(@rules) {
+  &::-webkit-input-placeholder {
+    @rules();
+  }
+  &:-moz-placeholder { /* Firefox 18- */
+    @rules();
+  }
+  &::-moz-placeholder {  /* Firefox 19+ */
+    @rules();
+  }
+  &:-ms-input-placeholder {
     @rules();
   }
 }
