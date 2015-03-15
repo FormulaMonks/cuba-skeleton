@@ -4,7 +4,6 @@
     state: link
     src: "{{ node_dir }}"
     dest: "{{ release_dir }}/node_modules"
-  when: app_debug_mode
 
 - name: assets | assets npm modules installed
   npm:
