@@ -1,11 +1,17 @@
 var chokidar = require("chokidar")
   , path = require("path")
-  , watcher = chokidar.watch(path.join(__dirname, "assets"), { usePolling: true })
   , compiler = require("./compiler.js")
-  , runCompiler;
+  , paths = []
+  , watcher = null
+  , runCompiler = null;
+
+paths.push(path.join(__dirname, "javascripts"));
+paths.push(path.join(__dirname, "less"));
+
+watcher = chokidar.watch(paths, { usePolling: true });
 
 runCompiler = function () {
-  compiler.run(function (err, stats) {
+  compiler.run(true, function (err, stats) {
     if (err) {
       console.log("An error ocurred.", err);
     }

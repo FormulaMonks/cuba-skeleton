@@ -13,13 +13,13 @@ publicPath = function (relativePath) {
   return path.normalize(path.join(__dirname, "..", "public", relativePath));
 };
 
-webpackConfig = function (fileInput, fileOutput, development) {
+webpackConfig = function (fileInput, fileOutput, isDevelopment) {
   var plugins = []
     , isJs = fileOutput.match(/\.js$/);
 
   fileOutput = publicPath(fileOutput);
 
-  if (isJs && !development) {
+  if (isJs && !isDevelopment) {
     // Uglify
     plugins.push(
       new webpack.optimize.UglifyJsPlugin({
@@ -67,12 +67,12 @@ webpackConfig = function (fileInput, fileOutput, development) {
 };
 
 module.exports = {
-  run: function (finished) {
+  run: function (isDevelopment, finished) {
     [
       ["less/application.less", "stylesheets/application.css"],
       ["javascripts/index.js", "javascripts/index.js"]
     ].forEach(function (filenames, i) {
-      webpack(webpackConfig(filenames[0], filenames[1], true)).run(finished);
+      webpack(webpackConfig(filenames[0], filenames[1], isDevelopment)).run(finished);
     });
   }
 };

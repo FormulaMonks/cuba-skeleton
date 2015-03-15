@@ -1,8 +1,8 @@
 var compiler = require("./compiler.js");
 
-compiler.run(function (err, stats) {
+compiler.run(false, function (err, stats) {
   if (err) {
-    process.stderr.write("An error ocurred.");
+    process.stderr.write("A fatal error ocurred.");
     process.exit(1);
   }
   else {
@@ -13,5 +13,9 @@ compiler.run(function (err, stats) {
       ],
       colors: true
     }));
+
+    if (stats.compilation.errors.length > 0) {
+      process.exit(1);
+    }
   }
 });
