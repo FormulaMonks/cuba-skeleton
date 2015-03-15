@@ -13,6 +13,8 @@
     path: "{{ release_dir }}"
     state: present
   with_items:
+    - { name: "jstransform", version: "9.0.0" }
+    - { name: "q", version: "1.1.2" }
     - { name: "less", version: "1.7.5" }
     - { name: "chokidar", version: "0.12.1" }
     - { name: "webpack", version: "1.5.3" }
@@ -23,6 +25,8 @@
     - { name: "raw-loader", version: "0.5.1" }
     - { name: "jsx-loader", version: "0.12.2" }
     - { name: "react", version: "0.12.2" }
+    - { name: "immutable", version: "3.6.2" }
+    - { name: "flux", version: "2.0.1" }
 
 - name: assets | assets compiled
   command: "node webapp/compile.js"
