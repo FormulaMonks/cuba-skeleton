@@ -82,7 +82,7 @@
 - name: ssh config to github is set
   lineinfile:
     dest: "/home/{{ user }}/.ssh/config"
-    line: "Host {{ app_name }}.github.com\n HostName github.com\n User git\n IdentityFile /home/{{ user }}/.ssh/{{ app_name }}_rsa"
+    line: "Host {{ app_name }}.github.com\n HostName github.com\n User git\n IdentityFile /home/{{ user }}/.ssh/{{ app_name }}_rsa\n StrictHostKeyChecking no"
     state: present
     create: yes
     group: "{{ user }}"

@@ -1,5 +1,4 @@
 ---
-server_type: "production"
 user: "deploy"
 root_user: "ubuntu"
 base_dir: "/srv/apps/cuba-skeleton"
