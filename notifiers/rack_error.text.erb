@@ -1,0 +1,23 @@
+Exception Class: <%= notifier.exception.class.to_s %>
+Exception message: <%= notifier.exception.message %>
+
+===================================================================
+Backtrace:
+===================================================================
+
+  <%= notifier.exception.backtrace.join("\n  ") %>
+
+===================================================================
+Rack Environment:
+===================================================================
+
+  ENVIRONMENT:             <%= notifier.environment %>
+  PID:                     <%= $$ %>
+  PWD:                     <%= Dir.getwd %>
+
+  Params:
+    <%= notifier.params.empty? ? "No params" : notifier.params.
+        map { |k, v| "%-23s%p" % ["#{k}:", v] }.join("\n    ") %>
+
+  <%= notifier.sanitized_env.
+      map { |k, v| "%-25s%p" % ["#{k}:", v] }.join("\n  ") %>
