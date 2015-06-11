@@ -15,14 +15,14 @@ module ErrorNotifiers
     def initialize(exception, options = {})
       @exception = exception
       @templates_path = options.fetch(:templates_path)
-      @logs_path = options.fetch(:logs_path, Dir.pwd)
+      @logs_path = options.fetch(:logs_path)
     end
 
     # Log the log_content into the logs folder.
     def log
       dirname, filename = Time.now.utc.strftime("%Y%m%d_%H%M%S%L").split("_")
       dirname = File.join(@logs_path, dirname)
-      filename = "#{self.class.name.gsub(/^.*\:/, "").underscore}_#{filename}"
+      filename = "#{self.class.name.gsub(/^.*\:/, "").downcase}_#{filename}"
       unless File.directory?(dirname)
         FileUtils.mkdir(dirname)
       end
