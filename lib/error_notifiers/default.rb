@@ -26,7 +26,7 @@ module ErrorNotifiers
       unless File.directory?(dirname)
         FileUtils.mkdir(dirname)
       end
-      File.open(File.join(dirname, filename), "w") { |f| f.puts(content) }
+      File.open(File.join(dirname, filename), "a") { |f| f.puts(content) }
     end
 
     # Get the content to log.
